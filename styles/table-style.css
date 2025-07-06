@@ -1,0 +1,28 @@
+
+table {
+    width: 100%;
+}
+
+table, th, td {
+    border: 1px solid #b3b3b3;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 5px;
+}
+
+th {
+    background-color: var(--color-pri);
+    font-weight: bold;
+    color: white;
+    text-align: center;
+}
+
+tbody > :nth-child(even) {
+    background-color: #dddddd;
+}
+
+.table-actions {
+    width: 92px;
+}

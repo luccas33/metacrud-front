@@ -1,0 +1,20 @@
+{
+    "name": "metacrud",
+    "version": "1.0.0",
+    "description": "A CRUD project to create CRUDs",
+    "main": "main.js",
+    "scripts": {
+      "dev": "npx webpack --config webpack.config.js -w",
+      "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "Lucas Costa Campos",
+    "license": "ISC",
+    "devDependencies": {
+      "@types/lodash": "^4.14.194",
+      "webpack": "^5.83.1",
+      "webpack-cli": "^5.1.1"
+    },
+    "dependencies": {
+      "lodash": "^4.17.21"
+    }
+  }

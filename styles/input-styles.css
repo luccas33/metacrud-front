@@ -1,0 +1,26 @@
+
+.input {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+
+.input input {
+    padding: 5px;
+}
+
+.input select {
+    padding: 6px;
+}
+
+.input-checkbox {
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
+    gap: 15px;
+}
+
+.input-checkbox input {
+    width: 20px;
+    height: 20px;
+}

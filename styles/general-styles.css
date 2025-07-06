@@ -1,0 +1,107 @@
+
+* {
+    --color-pri-l2: #9bbedb;
+    --color-pri-l: #72a6d1;
+    --color-pri: #3876a8;
+    --color-pri-d: #295172;
+
+    --color-sec-l: #929292;
+    --color-sec: #5f5f5f;
+    --color-sec-d: #494949;
+
+    --color-pos-l: #559455;
+    --color-pos: #2a6e2a;
+    --color-pos-d: #1e521e;
+
+    --color-neg-l: #dd6161;
+    --color-neg: #d83e3e;
+    --color-neg-d: #a82b2b;
+}
+
+body, header, main, footer, section, div, h1, h2, h3, h4, p, label, span {
+    margin: 0;
+    padding: 0;
+}
+
+p, label, span, button, th, td {
+    font-size: 1rem;
+}
+
+.container > * {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    gap: 15px;
+}
+
+.actions {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.form-actions {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.custom-crud {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.template > header {
+    height: 50px;
+}
+
+.template > footer {
+    height: 50px;
+}
+
+.template > header, .template > footer {
+    background-color: var(--color-pri);
+    padding: 10px;
+    color: white;
+    display: flex;
+    align-items: center;
+}
+
+.template {
+    display: flex;
+    flex-direction: column;
+}
+
+.template > main {
+    display: flex;
+    flex-direction: row;
+    overflow-y: auto;
+    min-height: calc(100vh - 100px);
+}
+
+.menu-container {
+    background-color: var(--color-sec);
+    width: 150px;
+}
+
+.menu > .menu-item {
+    color: white;
+    font-weight: bold;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.menu > .menu-item.selected {
+    color: var(--color-pri-l2);
+    background-color: var(--color-sec-d);
+}
+
+.page-container {
+    width: calc(100% - 150px);
+    padding: 15px;
+}

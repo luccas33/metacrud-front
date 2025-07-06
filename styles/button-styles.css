@@ -1,0 +1,42 @@
+
+button {
+    padding: 5px 10px;
+    color: white;
+    font-weight: bold;
+    background-color: var(--color-pri);
+    border: 2px solid var(--color-pri-d);
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:active {
+    outline: none;
+    background-color: var(--color-pri-l);
+    border-color: var(--color-pri);
+}
+
+.btn-positive {
+    background-color: var(--color-pos);
+    border-color: var(--color-pos-d);
+}
+
+.btn-positive:active {
+    background-color: var(--color-pos-l);
+    border-color: var(--color-pos);
+}
+
+.btn-negative {
+    background-color: var(--color-neg);
+    border-color: var(--color-neg-d);
+}
+
+.btn-negative:active {
+    background-color: var(--color-neg-l);
+    border-color: var(--color-neg);
+}
+
+.close-dialog, .btn-edit, .btn-delete {
+    height: 38px;
+    width: 38px;
+    border-radius: 50%;
+}
