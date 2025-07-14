@@ -10,7 +10,7 @@ export function createInputComp(options = {}) {
     options.className = options.className || '';
 
     let main = newelm('div', `input input-${options.type} ${options.className} ${options.size || ''}`);
-    let comp = {main};
+    let comp = {main, prop: options.prop, onchangeList: []};
 
     comp.render = () => {
         let iptId = 'input_comp_' + count.lastId++;
@@ -38,7 +38,7 @@ export function createInputComp(options = {}) {
                 value = ipt.checked;
             }
             options.vo[options.prop] = value;
-            console.log(options.vo);
+            comp.onchangeList.forEach(callback => callback({originInput: comp, originProp: options.prop, value}));
         });
     }
 

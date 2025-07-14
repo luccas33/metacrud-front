@@ -1,3 +1,6 @@
+import { typeOptionsEnum } from "./pages/meta-crud";
+import { createCrudSelectComp } from "./shared-comps/crud-select-comp";
+import { createDateSelectComp } from "./shared-comps/data-select-comp";
 import { createInputComp } from "./shared-comps/input-comp";
 import { createSelectComp } from "./shared-comps/select-comp";
 
@@ -29,7 +32,20 @@ export function createInputByType(options) {
     if (options.type == 'select') {
         return createSelectComp(options);
     }
+    if (options.type == typeOptionsEnum.crudselect) {
+        return createCrudSelectComp(options);
+    }
+    if (options.type == 'linkcrud') {
+        return createDateSelectComp(options);
+    }
     return createInputComp(options)
+}
+
+export function voToString(vo, inputs) {
+    return inputs.filter(ipt => ipt.onTable)
+        .map(ipt => vo[ipt.prop])
+        .filter(value => value != null && value != undefined)
+        .join(' ');
 }
 
 export function notifyAllListeners(listeners, info = {}) {

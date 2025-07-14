@@ -1,13 +1,16 @@
 import { createCustomCrudComp } from "./custom-crud-comp";
 import { createInputByType, newelm, onclick } from "../utils";
+import { loadCruds } from "../services/crud-service";
 
 export function createFormComp(crud, inputs) {
     let main = newelm('div', 'form');
     main.style.display = 'none';
 
-    let comp = { main };
+    let comp = { main, inputCompList: [] };
 
     comp.render = () => {
+        comp.inputCompList = [];
+
         main.innerHTML = /*html*/`
             <div class="dialog">
                 <div class="dialog-content form-dialog">
@@ -36,9 +39,13 @@ export function createFormComp(crud, inputs) {
         inputs.forEach(ipt => {
             ipt.vo = crud.vo;
             let iptComp = createInputByType(ipt);
+            comp.inputCompList.push(iptComp);
             iptComp.render();
             formInputs.appendChild(iptComp.main);
         });
+
+        inputs.filter(ipt => ipt.requiredOn)
+            .forEach(ipt => linkRequiredOn(ipt, comp.inputCompList, crud.vo));
 
         let btnClose = main.querySelector('.close-dialog');
         onclick(btnClose, () => crud.closeForm());
@@ -56,6 +63,43 @@ export function createFormComp(crud, inputs) {
     }
 
     return comp;
+}
+
+function linkRequiredOn(inputInfo, inputList, vo) {
+    console.log(`${inputInfo.prop} required on ${inputInfo.requiredOn.prop}`);
+    let input = inputList.find(ipt => ipt.prop == inputInfo.prop);
+    let masterInput = inputList.find(ipt => ipt.prop == inputInfo.requiredOn.prop);
+    if (!masterInput) {
+        console.log('master input not found')
+        return;
+    }
+    const defDisplay = input.main.style.display || 'flex';
+
+    function verifyInputDisplay() {
+        let value = vo[inputInfo.requiredOn.prop];
+
+        if (value == null || value == undefined) {
+            input.main.style.display = 'none';
+            return;
+        }
+        let requiredValues = inputInfo.requiredOn.values || [];
+        if (requiredValues.length == 0) {
+            input.main.style.display = defDisplay;
+            input.render();
+            return;
+        }
+        let requiredValue = requiredValues.find(v => v == value);
+        if (requiredValue != null && requiredValue != undefined) {
+            input.main.style.display = defDisplay;
+            input.render();
+            return;
+        }
+        input.main.style.display = 'none';
+    }
+
+    verifyInputDisplay();
+
+    masterInput.onchangeList.push(() => verifyInputDisplay());
 }
 
 function createSubcruds(crud, form) {
@@ -98,10 +142,15 @@ function createSubcruds(crud, form) {
         title.innerText = sc.label;
     }
 
-    crud.subcruds.map(sc => {
-        let btn = newelm('button', 'subcrud-btn');
-        btn.innerText = sc.label;
-        onclick(btn, () => form.showSubcrud(sc));
-        subcrudList.appendChild(btn);
-    });
+    loadCruds(cruds => {
+        crud.subcruds.map(sc => {
+            sc = cruds.find(c => sc.name == c.name);
+            let btn = newelm('button', 'subcrud-btn');
+            btn.innerText = sc.label;
+            onclick(btn, () => form.showSubcrud(sc));
+            subcrudList.appendChild(btn);
+        });
+    })
+
+    
 }

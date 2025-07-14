@@ -12,7 +12,7 @@ export function createSelectComp(options = {}) {
     options.options = options.options || [];
 
     let main = newelm('div', `input input-select ${options.className} ${options.size || ''}`);
-    let comp = {main};
+    let comp = {main, prop: options.prop, onchangeList: []};
 
     comp.render = () => {
         let iptId = 'select_comp_' + count.lastId++;
@@ -26,11 +26,14 @@ export function createSelectComp(options = {}) {
 
         let ipt = main.querySelector('select');
 
-        ipt.value = options.vo[options.prop];
+        let voValue = options.vo[options.prop];
+        ipt.value = typeof voValue == 'string' ? voValue : voValue.value;
 
         onchange(ipt, () => {
-            options.vo[options.prop] = ipt.value;
-            console.log(options.vo);
+            let selectedValue = options.options.find(opt => opt.value == ipt.value);
+            selectedValue = typeof selectedValue.value == 'string' ? selectedValue.value : selectedValue;
+            options.vo[options.prop] = selectedValue;
+            comp.onchangeList.forEach(callback => callback({originInput: comp, originProp: options.prop, value: selectedValue}));
         });
     }
 

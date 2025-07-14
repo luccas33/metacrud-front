@@ -1,6 +1,6 @@
-import { newelm, onclick } from "../utils";
+import { newelm, onclick, voToString } from "../utils";
 
-export function createTableComp(crud, inputs) {
+export function createTableComp(crud, inputs, onSelect) {
     let main = newelm('table');
     let comp = { main };
 
@@ -17,8 +17,11 @@ export function createTableComp(crud, inputs) {
 
         console.log('table.render(): ', list);
 
+        let onSelectColumn = /*html*/`<th>Select</th>`;
+
         main.innerHTML = /*html*/`
             <thead>
+                ${onSelect ? onSelectColumn : ''}
                 ${headColumns}
                 <th class="table-actions">Actions</th>
             </thead>
@@ -27,13 +30,13 @@ export function createTableComp(crud, inputs) {
         `;
 
         let tbody = main.querySelector('tbody');
-        list.forEach(item => tbody.appendChild(createTableItem(item, crud, inputs)));
+        list.forEach(item => tbody.appendChild(createTableItem(item, crud, inputs, onSelect)));
     }
 
     return comp;
 }
 
-function createTableItem(item, crud, inputs) {
+function createTableItem(item, crud, inputs, onSelect) {
     let main = newelm('tr');
 
     let columns = inputs.map(ipt => {
@@ -41,13 +44,21 @@ function createTableItem(item, crud, inputs) {
         if (ipt.type == 'checkbox') {
             value = value ? 'YES' : 'NO';
         }
+        if (ipt.type == 'linkcrud') {
+            value = value?.label || '';
+        }
         return /*html*/`
             <td>${value}</td>
         `;
     }).join('');
 
+    let onSelectColumn = /*html*/`
+        <td><input type="checkbox" class="input input-checkbox select"></td>
+    `;
+
     main.innerHTML = /*html*/`
         <tr>
+            ${onSelect ? onSelectColumn : ''}
             ${columns}
             <td>
                 <button class="btn-edit"><i class="fa-solid fa-pen-to-square"></i></button>
@@ -61,6 +72,14 @@ function createTableItem(item, crud, inputs) {
 
     onclick(btnEdit, () => crud.edit(item));
     onclick(btnDel, () => crud.del(item));
+
+    if (onSelect) {
+        let ckbSelect = main.querySelector('.input.select');
+        onclick(ckbSelect, () => {
+            console.log('inputs: ', inputs)
+            onSelect({id: item.id, label: voToString(item, inputs), form: crud.name});
+        });
+    }
 
     return main;
 }

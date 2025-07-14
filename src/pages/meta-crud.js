@@ -1,10 +1,12 @@
+import { size } from "lodash";
 import { createCustomCrudComp } from "../shared-comps/custom-crud-comp";
 
-const typeOptionsEnum = {
+export const typeOptionsEnum = {
     text: 'text',
     number: 'number',
     checkbox: 'checkbox',
-    select: 'select'
+    select: 'select',
+    crudselect: 'crudselect'
 }
 
 const typeSelectOptions = [
@@ -12,6 +14,12 @@ const typeSelectOptions = [
     { label: 'Number', value: 'number' },
     { label: 'Checkbox', value: 'checkbox' },
     { label: 'Select', value: 'select' }
+]
+
+const metacrudSelectOptions = [
+    ...typeSelectOptions,
+    { label: 'Sub Form', value: 'subcrud' },
+    { label: 'Link Form', value: 'linkcrud' }
 ]
 
 const inputSizeOptionsEnum = {
@@ -41,7 +49,8 @@ const inputCrudInfo = {
     voModifier: verifyInputProp,
     inputs: [
         { label: 'Label', prop: 'label', size: inputSizeOptionsEnum.medium, onTable: true },
-        { label: 'Type', prop: 'type', size: inputSizeOptionsEnum.medium, type: typeOptionsEnum.select, options: typeSelectOptions, onTable: true },
+        { label: 'Type', prop: 'type', size: inputSizeOptionsEnum.medium, type: typeOptionsEnum.select, options: metacrudSelectOptions, onTable: true },
+        { label: 'Select Form', prop: 'name', size: inputSizeOptionsEnum.medium, type: typeOptionsEnum.crudselect, requiredOn: {prop: 'type', values: ['subcrud', 'linkcrud']} },
         { label: 'Size', prop: 'size', size: inputSizeOptionsEnum.medium, type: typeOptionsEnum.select, options: inputSizeSelectOptions},
         { label: 'Required', prop: 'required', size: inputSizeOptionsEnum.medium, type: typeOptionsEnum.checkbox, onTable: true },
         { label: 'On Table', prop: 'onTable', size: inputSizeOptionsEnum.medium, type: typeOptionsEnum.checkbox }
