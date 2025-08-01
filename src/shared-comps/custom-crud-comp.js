@@ -6,7 +6,13 @@ import { newelm, onclick } from "../utils";
 export function createCustomCrudComp(crudInfo, onSelect) {
     let main = newelm('div', `custom-crud custom-crud-${crudInfo.name}`);
 
-    let comp = {name: crudInfo.name, main, subcruds: crudInfo.subcruds, voModifier: crudInfo.voModifier};
+    let comp = {
+        name: crudInfo.name, 
+        main, 
+        subcruds: crudInfo.subcruds, 
+        voModifier: crudInfo.voModifier,
+        inputs: crudInfo.inputs
+    };
 
     createBaseCrudActions(crudInfo.name, comp);
 

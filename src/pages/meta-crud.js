@@ -41,6 +41,7 @@ const inputSizeSelectOptions = [
 
 function verifyInputProp(vo) {
     vo.prop = vo.label.trim().toLowerCase().replaceAll(/ +/g, '_');
+    vo.type = vo.type || typeOptionsEnum.text;
 }
 
 const inputCrudInfo = {
@@ -50,7 +51,7 @@ const inputCrudInfo = {
     inputs: [
         { label: 'Label', prop: 'label', size: inputSizeOptionsEnum.medium, onTable: true },
         { label: 'Type', prop: 'type', size: inputSizeOptionsEnum.medium, type: typeOptionsEnum.select, options: metacrudSelectOptions, onTable: true },
-        { label: 'Select Form', prop: 'name', size: inputSizeOptionsEnum.medium, type: typeOptionsEnum.crudselect, requiredOn: {prop: 'type', values: ['subcrud', 'linkcrud']} },
+        { label: 'Select Form', prop: 'form', size: inputSizeOptionsEnum.medium, type: typeOptionsEnum.crudselect, requiredOn: {prop: 'type', values: ['subcrud', 'linkcrud']} },
         { label: 'Size', prop: 'size', size: inputSizeOptionsEnum.medium, type: typeOptionsEnum.select, options: inputSizeSelectOptions},
         { label: 'Required', prop: 'required', size: inputSizeOptionsEnum.medium, type: typeOptionsEnum.checkbox, onTable: true },
         { label: 'On Table', prop: 'onTable', size: inputSizeOptionsEnum.medium, type: typeOptionsEnum.checkbox }

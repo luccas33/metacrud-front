@@ -143,8 +143,13 @@ function createSubcruds(crud, form) {
     }
 
     loadCruds(cruds => {
+        console.log('subcruds: ', crud.subcruds)
+
         crud.subcruds.map(sc => {
-            sc = cruds.find(c => sc.name == c.name);
+            sc = cruds.find(c => sc.name == c.name) || sc;
+            if (!sc || !sc.name || !sc.inputs || !sc.label) {
+                return;
+            }
             let btn = newelm('button', 'subcrud-btn');
             btn.innerText = sc.label;
             onclick(btn, () => form.showSubcrud(sc));

@@ -27,9 +27,10 @@ export function createDateSelectComp(options) {
         comp.closeCrud = () => comp.crudContainer.innerHTML = '';
 
         let voValue = options.vo[options.prop];
-        ipt.value = voValue?.label || 'Select';
+        ipt.value = voValue?._label || 'Select';
 
         onclick(ipt, () => loadCruds(cruds => {
+            console.log('data select form: ', options.form);
             let crud = cruds.find(c => options.form == c.name);
             showCrud(comp, options, crud);
         }));
@@ -41,7 +42,16 @@ export function createDateSelectComp(options) {
 function showCrud(comp, options, crudInfo) {
     console.log('crud: ', crudInfo);
 
+    let oldReferredId = null;
+    if (options.vo[options.prop]) {
+        oldReferredId = options.vo[options.prop].id;
+    }
+
     let onSelect = selectedVo => {
+        if (oldReferredId) {
+            selectedVo = selectedVo || {form: crudInfo.name};
+            selectedVo.removedId = oldReferredId;
+        }
         options.vo[options.prop] = selectedVo;
         comp.closeCrud();
         comp.render();

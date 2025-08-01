@@ -1,3 +1,4 @@
+import { voToString } from "../utils";
 import { createBaseRestService } from "./base-rest-service";
 
 export function createBaseCrudActions(name, crud) {
@@ -33,6 +34,7 @@ export function createBaseCrudActions(name, crud) {
         if (crud.voModifier) {
             crud.voModifier(crud.vo);
         }
+        crud.vo._label = voToString(crud.vo, crud.inputs);
         console.log('save(): ', crud.vo);
         if (crud.vo.id) {
             service.put(crud.vo)
@@ -61,7 +63,24 @@ export function createBaseCrudActions(name, crud) {
     }
 
     crud.del = vo => {
+        verifyRelations(vo);
         service.del(vo.id)
             .then(() => crud.list());
+    }
+
+    function verifyRelations(vo) {
+        vo = {...vo};
+        let mustUpdate = {value: false};
+        Object.keys(vo).forEach(key => {
+            let value = vo[key];
+            if (value && typeof value == 'object' && value.form && value.id) {
+                value.removedId = value.id;
+                delete value.id;
+                mustUpdate.value = true;
+            }
+        });
+        if (mustUpdate.value) {
+            service.put(vo);
+        }
     }
 }

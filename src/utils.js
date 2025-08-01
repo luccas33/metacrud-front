@@ -44,7 +44,7 @@ export function createInputByType(options) {
 export function voToString(vo, inputs) {
     return inputs.filter(ipt => ipt.onTable)
         .map(ipt => vo[ipt.prop])
-        .filter(value => value != null && value != undefined)
+        .filter(value => value != null && value != undefined && typeof value != 'object')
         .join(' ');
 }
 

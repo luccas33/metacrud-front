@@ -45,7 +45,7 @@ function createTableItem(item, crud, inputs, onSelect) {
             value = value ? 'YES' : 'NO';
         }
         if (ipt.type == 'linkcrud') {
-            value = value?.label || '';
+            value = value?._label || '';
         }
         return /*html*/`
             <td>${value}</td>
@@ -77,7 +77,7 @@ function createTableItem(item, crud, inputs, onSelect) {
         let ckbSelect = main.querySelector('.input.select');
         onclick(ckbSelect, () => {
             console.log('inputs: ', inputs)
-            onSelect({id: item.id, label: voToString(item, inputs), form: crud.name});
+            onSelect({id: item.id, _label: voToString(item, inputs), form: crud.name});
         });
     }
 

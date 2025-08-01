@@ -27,11 +27,14 @@ export function createSelectComp(options = {}) {
         let ipt = main.querySelector('select');
 
         let voValue = options.vo[options.prop];
-        ipt.value = typeof voValue == 'string' ? voValue : voValue.value;
+        if (voValue != null && voValue != undefined) {
+            ipt.value = typeof voValue == 'string' ? voValue : voValue.value;
+        }
 
         onchange(ipt, () => {
             let selectedValue = options.options.find(opt => opt.value == ipt.value);
             selectedValue = typeof selectedValue.value == 'string' ? selectedValue.value : selectedValue;
+            console.log('selected value: ', selectedValue)
             options.vo[options.prop] = selectedValue;
             comp.onchangeList.forEach(callback => callback({originInput: comp, originProp: options.prop, value: selectedValue}));
         });
